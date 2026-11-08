@@ -1,0 +1,1 @@
+Notes on supervised learning, gradient descent and model evaluation.

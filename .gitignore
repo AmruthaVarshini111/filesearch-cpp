@@ -1,0 +1,20 @@
+# Build output
+build/
+build_*/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+compile_commands.json
+Testing/
+
+# Index databases and local state (never commit these)
+*.db
+*.db-wal
+*.db-shm
+*.db.corrupt-*
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
