@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d18">
+  <meta name="description" content="FileSearch is a fast, offline file search engine for macOS, built with C++20, SQLite, inverted indexing and TF-IDF ranking.">
+  <title>FileSearch — Find files. Fast.</title>
+  <style>
+    :root{color-scheme:dark;--bg:#090d18;--panel:#111827;--panel2:#0d1422;--line:#253247;--muted:#9aa9bd;--text:#eef4ff;--cyan:#6ee7f9;--violet:#a78bfa;--green:#86efac}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 75% 0%,#182747 0,transparent 38%),var(--bg);color:var(--text);font:16px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    a{color:inherit;text-decoration:none}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+    nav{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:750;letter-spacing:-.03em;font-size:19px}.mark{width:35px;height:35px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),var(--violet));display:grid;place-items:center;color:#08111d;font-weight:900}
+    .navlinks{display:flex;gap:26px;color:var(--muted);font-size:14px}.navlinks a:hover{color:var(--text)}
+    .hero{padding:96px 0 76px;display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+    .eyebrow{display:inline-flex;gap:9px;align-items:center;border:1px solid #6ee7f944;background:#6ee7f910;color:var(--cyan);border-radius:99px;padding:6px 12px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+    h1{font-size:clamp(48px,7vw,78px);line-height:1.02;letter-spacing:-.065em;margin:22px 0}.gradient{background:linear-gradient(100deg,#f4f8ff 10%,var(--cyan) 58%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .lead{font-size:18px;color:#b6c3d5;max-width:590px}.actions{display:flex;gap:13px;flex-wrap:wrap;margin-top:30px}
+    .btn{padding:12px 18px;border-radius:11px;font-weight:750;font-size:14px;border:1px solid var(--line);display:inline-flex;gap:9px;align-items:center}.primary{background:linear-gradient(110deg,var(--cyan),#a5b4fc);color:#07111d;border:0}.btn:hover{transform:translateY(-2px)}
+    .terminal{background:#080c14;border:1px solid #31415b;border-radius:17px;overflow:hidden;box-shadow:0 24px 80px #0008;transform:rotate(1deg)}
+    .termbar{height:43px;border-bottom:1px solid #253247;display:flex;align-items:center;padding:0 15px;gap:7px;color:#8ea0b8;font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:#42516a}.termname{margin-left:auto}
+    pre{margin:0;padding:23px 21px 25px;white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.9 ui-monospace,SFMono-Regular,Menlo,monospace;color:#cbd5e1}.prompt{color:var(--green)}.cmd{color:var(--cyan)}.result{color:#e8effb}.dim{color:#71829b}
+    .trust{display:flex;gap:22px;flex-wrap:wrap;color:var(--muted);font-size:13px;margin-top:28px}.trust span:before{content:"✓";color:var(--green);margin-right:8px}
+    section{padding:70px 0;border-top:1px solid #ffffff10}.section-head{max-width:680px;margin-bottom:34px}h2{font-size:clamp(30px,4vw,43px);letter-spacing:-.045em;line-height:1.12;margin:0 0 13px}.section-head p{color:var(--muted);margin:0}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.card{background:linear-gradient(145deg,#141e30,#0e1523);border:1px solid var(--line);border-radius:15px;padding:22px}.icon{font-size:21px;margin-bottom:13px}.card h3{margin:0 0 7px;font-size:17px}.card p{margin:0;color:var(--muted);font-size:14px}
+    .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:stretch}.step{border:1px solid var(--line);border-radius:13px;background:var(--panel2);padding:18px}.num{font:12px ui-monospace,monospace;color:var(--cyan)}.step strong{display:block;margin:8px 0 4px}.step p{font-size:13px;color:var(--muted);margin:0}.arrow{color:#64748b}
+    .install{display:grid;grid-template-columns:1fr 1fr;gap:18px}.codebox{background:#070b12;border:1px solid var(--line);border-radius:14px;overflow:hidden}.codehead{padding:11px 15px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}.codebox pre{padding:18px}
+    .stack{display:flex;gap:10px;flex-wrap:wrap}.pill{padding:7px 12px;border-radius:99px;border:1px solid #33445e;background:#111b2b;color:#c7d5e8;font:12px ui-monospace,monospace}
+    .note{color:var(--muted);font-size:13px;margin-top:14px}
+    .cta{background:linear-gradient(120deg,#13243a,#17152f);border:1px solid #34435d;border-radius:20px;padding:34px;display:flex;justify-content:space-between;align-items:center;gap:24px}.cta p{color:var(--muted);margin:5px 0 0}
+    footer{padding:30px 0 45px;color:#8190a5;font-size:13px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    @media(max-width:800px){.hero{grid-template-columns:1fr;padding:70px 0 55px;gap:35px}.grid{grid-template-columns:1fr 1fr}.flow{grid-template-columns:1fr 1fr}.install{grid-template-columns:1fr}.navlinks{gap:13px}.cta{align-items:flex-start;flex-direction:column}}
+    @media(max-width:520px){.wrap{width:min(100% - 28px,1120px)}.navlinks a:nth-child(2),.navlinks a:nth-child(3){display:none}.grid,.flow{grid-template-columns:1fr}.hero{padding-top:55px}h1{font-size:53px}.lead{font-size:16px}.terminal{transform:none}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="#"><span class="mark">F</span> FileSearch</a>
+      <div class="navlinks"><a href="#features">Features</a><a href="#how">How it works</a><a href="#install">Install</a><a href="https://github.com/AmruthaVarshini111/filesearch-cpp">GitHub ↗</a></div>
+    </nav>
+
+    <main>
+      <header class="hero">
+        <div>
+          <span class="eyebrow">C++20 · macOS · Offline-first</span>
+          <h1>Find files.<br><span class="gradient">Not folders.</span></h1>
+          <p class="lead">A fast, local file search engine for your Mac. Index the folders you choose, search by name and path, and get relevance-ranked results right from your terminal.</p>
+          <div class="actions">
+            <a class="btn primary" href="#install">Get started <span>→</span></a>
+            <a class="btn" href="https://github.com/AmruthaVarshini111/filesearch-cpp">View source on GitHub ↗</a>
+          </div>
+          <div class="trust"><span>Runs locally</span><span>No cloud uploads</span><span>Read-only file access</span></div>
+        </div>
+        <div class="terminal" aria-label="Terminal example">
+          <div class="termbar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="termname">Terminal — filesearch</span></div>
+          <pre><span class="dim"># Search indexed files</span>
+<span class="prompt">$</span> <span class="cmd">filesearch search "machine learning" --type pdf</span>
+
+<span class="result">1  machine-learning-intro.pdf</span>
+   <span class="dim">~/Documents/Research/</span>
+
+<span class="result">2  machine-learning-notes.pdf</span>
+   <span class="dim">~/Projects/Notes/</span>
+
+<span class="prompt">✓</span> <span class="result">2 results · ranked by relevance</span></pre>
+        </div>
+      </header>
+
+      <section id="features">
+        <div class="section-head"><h2>Search built for your workflow.</h2><p>Fast retrieval, useful filters and local-first design — without sending your files to a server.</p></div>
+        <div class="grid">
+          <article class="card"><div class="icon">⌕</div><h3>Relevance-ranked search</h3><p>An inverted index and TF-IDF scoring rank matching file names and paths by relevance.</p></article>
+          <article class="card"><div class="icon">⚡</div><h3>Incremental indexing</h3><p>Re-scan indexed folders and skip unchanged files while adding, updating or removing entries.</p></article>
+          <article class="card"><div class="icon">◈</div><h3>Useful filters</h3><p>Filter by extension, directory, size and modification date. Sort by relevance, size, date or name.</p></article>
+          <article class="card"><div class="icon">▤</div><h3>SQLite storage</h3><p>Keep file metadata and index data in a local SQLite database.</p></article>
+          <article class="card"><div class="icon">⌘</div><h3>Native Mac actions</h3><p>Open a result with its default app or reveal it in Finder from the command line.</p></article>
+          <article class="card"><div class="icon">⛨</div><h3>Designed to be safe</h3><p>FileSearch reads file-system metadata and does not modify, move or delete your files.</p></article>
+        </div>
+      </section>
+
+      <section id="how">
+        <div class="section-head"><h2>From folders to answers.</h2><p>A straightforward pipeline turns your chosen directories into a searchable local index.</p></div>
+        <div class="flow">
+          <div class="step"><span class="num">01 / SCAN</span><strong>Choose folders</strong><p>Walk directories and collect file metadata.</p></div>
+          <div class="step"><span class="num">02 / TOKENISE</span><strong>Extract terms</strong><p>Split file names and directory paths into searchable terms.</p></div>
+          <div class="step"><span class="num">03 / INDEX</span><strong>Store locally</strong><p>Persist metadata and term postings in SQLite.</p></div>
+          <div class="step"><span class="num">04 / SEARCH</span><strong>Rank results</strong><p>Match query terms and order results using TF-IDF scoring.</p></div>
+        </div>
+      </section>
+
+      <section id="install">
+        <div class="section-head"><h2>Up and running on macOS.</h2><p>Install the command-line tool, index a folder, then search it whenever you need.</p></div>
+        <div class="install">
+          <div class="codebox"><div class="codehead">01 — Clone and install</div><pre>git clone https://github.com/AmruthaVarshini111/filesearch-cpp.git filesearch
+cd filesearch
+./scripts/install.sh</pre></div>
+          <div class="codebox"><div class="codehead">02 — Index and search</div><pre>filesearch index ~/Documents
+filesearch search "machine learning" --type pdf
+filesearch stats</pre></div>
+        </div>
+        <p class="note">Requirements: macOS, Xcode Command Line Tools and CMake. See the repository README for complete installation options, filters and command reference.</p>
+      </section>
+
+      <section>
+        <div class="section-head"><h2>Built with practical systems tools.</h2><p>A compact native application with a focused C++ architecture.</p></div>
+        <div class="stack"><span class="pill">C++20</span><span class="pill">SQLite</span><span class="pill">CMake</span><span class="pill">Inverted Index</span><span class="pill">TF-IDF</span><span class="pill">macOS CLI</span><span class="pill">GoogleTest</span></div>
+      </section>
+
+      <section>
+        <div class="cta"><div><h2>Explore the code.</h2><p>Read the documentation, inspect the implementation or contribute on GitHub.</p></div><a class="btn primary" href="https://github.com/AmruthaVarshini111/filesearch-cpp">Open GitHub repository ↗</a></div>
+      </section>
+    </main>
+
+    <footer><span>© 2026 FileSearch · MIT License</span><span>Built with C++20 · Made for macOS</span></footer>
+  </div>
+</body>
+</html>
