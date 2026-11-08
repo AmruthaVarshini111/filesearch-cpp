@@ -1,5 +1,5 @@
 # FileSearch
-
+   [![CI](https://github.com/AmruthaVarshini111/filesearch-cpp/actions/workflows/ci.yml/badge.svg)](https://github.com/AmruthaVarshini111/filesearch-cpp/actions)
 **A fast, offline file search engine for your Mac, written in C++20.**
 
 FileSearch scans the folders you choose, stores file names, paths, sizes and
