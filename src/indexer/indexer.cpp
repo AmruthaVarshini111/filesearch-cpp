@@ -122,6 +122,10 @@ class Walker {
     for (; it != end; it.increment(ec)) {
       if (ec) break;
       const std::string name = it->path().filename().string();
+      // Ignore macOS Finder metadata files.
+      if (name == ".DS_Store") {
+        continue;
+      }
       if (!opt_.include_hidden && pathutil::is_hidden_name(name)) {
         ++report_.skipped_hidden;
         continue;
